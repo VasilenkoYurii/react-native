@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -5,10 +6,41 @@ import {
   ImageBackground,
   TextInput,
   ScrollView,
-  Button,
+  Image,
+  TouchableOpacity,
 } from "react-native";
 
+import { SumbitButton } from "../components/SubmitButton";
+
 export const RegistrationScreen = () => {
+  const [isLoginActive, setIsLoginActive] = useState(false);
+  const [isEmailActive, setIsEmailActive] = useState(false);
+  const [isPasswordActive, setIsPasswordActive] = useState(false);
+
+  const handleLoginFocus = () => {
+    setIsLoginActive(true);
+  };
+
+  const handleLoginBlur = () => {
+    setIsLoginActive(false);
+  };
+
+  const handleEmailFocus = () => {
+    setIsEmailActive(true);
+  };
+
+  const handleEmailBlur = () => {
+    setIsEmailActive(false);
+  };
+
+  const handlePasswordFocus = () => {
+    setIsPasswordActive(true);
+  };
+
+  const handlePasswordBlur = () => {
+    setIsPasswordActive(false);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <ImageBackground
@@ -16,25 +48,44 @@ export const RegistrationScreen = () => {
         style={styles.bgImage}
       >
         <View style={styles.formContainer}>
+          <View style={styles.imgContainer}>
+            <TouchableOpacity style={styles.addPhotoBtn}>
+              <Image source={require("../images/addPhotoBtn.png")} />
+            </TouchableOpacity>
+          </View>
+          {/* [styles.formInput, isActive && styles.activeFormInput] */}
           <Text style={styles.formTitle}>Регистрация</Text>
-          <TextInput style={styles.formInput} placeholder="Логин" />
           <TextInput
-            style={styles.formInput}
+            style={[styles.formInput, isLoginActive && styles.activeFormInput]}
+            onFocus={handleLoginFocus}
+            onBlur={handleLoginBlur}
+            placeholder="Логин"
+          />
+          <TextInput
+            style={[styles.formInput, isEmailActive && styles.activeFormInput]}
+            onFocus={handleEmailFocus}
+            onBlur={handleEmailBlur}
             placeholder="Адрес электронной почты"
           />
           <View style={styles.passwordcontainer}>
             <TextInput
-              style={styles.formLastInput}
+              style={[
+                styles.formLastInput,
+                isPasswordActive && styles.activeFormInput,
+              ]}
+              onFocus={handlePasswordFocus}
+              onBlur={handlePasswordBlur}
               placeholder="Пароль"
               type="password"
             />
-            <Text style={styles.showPassword}>Показать</Text>
+            <TouchableOpacity style={styles.showPasswordContainer}>
+              <Text style={styles.showPasswordText}>Показать</Text>
+            </TouchableOpacity>
           </View>
-          <Button
-            title="Зарегистрироваться"
-            color="#FF6C00"
-            style={styles.formButtomSubmit}
-          />
+          <SumbitButton title={"Зарегистрироваться"} />
+          <TouchableOpacity>
+            <Text style={styles.prgIfWasAcc}>Уже есть аккаунт? Войти</Text>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </ScrollView>
@@ -52,6 +103,7 @@ const styles = StyleSheet.create({
     height: 812,
   },
   formContainer: {
+    position: "relative",
     backgroundColor: "#ffffff",
     width: "100%",
     height: 549,
@@ -62,12 +114,25 @@ const styles = StyleSheet.create({
 
     alignItems: "center",
   },
+  imgContainer: {
+    backgroundColor: "#F6F6F6",
+    width: 120,
+    height: 120,
+    borderRadius: 16,
+
+    position: "absolute",
+    top: -60,
+  },
+  addPhotoBtn: {
+    position: "absolute",
+    right: -12,
+    bottom: 14,
+  },
   formText: {
     backgroundColor: "#fff",
   },
   formTitle: {
     // fontFamily: "Roboto",
-    fontStyle: "Medium",
     color: "#212121",
     marginTop: 92,
     marginBottom: 33,
@@ -94,10 +159,12 @@ const styles = StyleSheet.create({
     position: "relative",
     width: "100%",
   },
-  showPassword: {
+  showPasswordContainer: {
     position: "absolute",
     top: 16,
     right: 16,
+  },
+  showPasswordText: {
     color: "#1B4371",
     fontSize: 16,
     lineHeight: 18.75,
@@ -118,9 +185,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 18.75,
   },
-
-  formButtomSubmit: {
-    width: "100%",
-    borderRadius: 100,
+  activeFormInput: {
+    borderColor: "#FF6C00",
+    backgroundColor: "#FFFFFF",
+  },
+  prgIfWasAcc: {
+    color: "#1B4371",
+    fontSize: 16,
+    lineHeight: 19,
   },
 });
