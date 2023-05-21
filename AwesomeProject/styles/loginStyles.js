@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     lineHeight: 35.16,
   },
-
+  inputBox: { width: "100%" },
   formInput: {
     marginBottom: 16,
     paddingLeft: 16,

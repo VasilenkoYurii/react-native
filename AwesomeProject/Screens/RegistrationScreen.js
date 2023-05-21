@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import {
   Text,
   View,
@@ -7,12 +7,24 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
 } from "react-native";
 
 import { SumbitButton } from "../components/SubmitButton";
 import { styles } from "../styles/registraitionStyles";
+import { reducer } from "../helpers/reduserRegLog";
 
 export const RegistrationScreen = () => {
+  const [state, dispatch] = useReducer(reducer, {
+    name: "",
+    email: "",
+    password: "",
+  });
+
   const [isLoginActive, setIsLoginActive] = useState(false);
   const [isEmailActive, setIsEmailActive] = useState(false);
   const [isPasswordActive, setIsPasswordActive] = useState(false);
@@ -46,57 +58,112 @@ export const RegistrationScreen = () => {
     setHiddenPassword(!hiddenPassword);
   };
 
+  const handleFormSubmit = () => {
+    console.debug(
+      `Hello ${state.name}, you have entered your email: ${state.email}, and password: ${state.password}`
+    );
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <ImageBackground
-        source={require("../images/regLogBg.png")}
-        style={styles.bgImage}
-      >
-        <View style={styles.formContainer}>
-          <View style={styles.imgContainer}>
-            <TouchableOpacity style={styles.addPhotoBtn}>
-              <Image source={require("../images/addPhotoBtn.png")} />
-            </TouchableOpacity>
-          </View>
-          {/* [styles.formInput, isActive && styles.activeFormInput] */}
-          <Text style={styles.formTitle}>Регистрация</Text>
-          <TextInput
-            style={[styles.formInput, isLoginActive && styles.activeFormInput]}
-            onFocus={handleLoginFocus}
-            onBlur={handleLoginBlur}
-            placeholder="Логин"
-          />
-          <TextInput
-            style={[styles.formInput, isEmailActive && styles.activeFormInput]}
-            onFocus={handleEmailFocus}
-            onBlur={handleEmailBlur}
-            placeholder="Адрес электронной почты"
-          />
-          <View style={styles.passwordcontainer}>
-            <TextInput
-              style={[
-                styles.formLastInput,
-                isPasswordActive && styles.activeFormInput,
-              ]}
-              onFocus={handlePasswordFocus}
-              onBlur={handlePasswordBlur}
-              placeholder="Пароль"
-              secureTextEntry={hiddenPassword}
-              type="password"
-            />
-            <TouchableOpacity
-              style={styles.showPasswordContainer}
-              onPress={handleHiddenPassword}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView style={styles.container}>
+        <ImageBackground
+          source={require("../images/regLogBg.png")}
+          style={styles.bgImage}
+        >
+          <View style={styles.formContainer}>
+            <View style={styles.imgContainer}>
+              <TouchableOpacity style={styles.addPhotoBtn}>
+                <Image source={require("../images/addPhotoBtn.png")} />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.formTitle}>Регистрация</Text>
+            <KeyboardAvoidingView
+              style={styles.inputBox}
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
-              <Text style={styles.showPasswordText}>Показать</Text>
+              <TextInput
+                style={[
+                  styles.formInput,
+                  isLoginActive && styles.activeFormInput,
+                ]}
+                value={state.name}
+                onChangeText={(e) => {
+                  dispatch({
+                    type: "name",
+                    newName: e,
+                  });
+                }}
+                onFocus={handleLoginFocus}
+                onBlur={handleLoginBlur}
+                placeholder="Логин"
+              />
+              <TextInput
+                style={[
+                  styles.formInput,
+                  isEmailActive && styles.activeFormInput,
+                ]}
+                value={state.email}
+                onChangeText={(e) => {
+                  dispatch({
+                    type: "email",
+                    newEmail: e,
+                  });
+                }}
+                onFocus={handleEmailFocus}
+                onBlur={handleEmailBlur}
+                placeholder="Адрес электронной почты"
+              />
+            </KeyboardAvoidingView>
+            <View style={styles.passwordcontainer}>
+              <KeyboardAvoidingView
+                style={styles.inputBox}
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+              >
+                <TextInput
+                  style={[
+                    styles.formLastInput,
+                    isPasswordActive && styles.activeFormInput,
+                  ]}
+                  value={state.password}
+                  onChangeText={(e) => {
+                    dispatch({
+                      type: "password",
+                      newPassword: e,
+                    });
+                  }}
+                  onFocus={handlePasswordFocus}
+                  onBlur={handlePasswordBlur}
+                  placeholder="Пароль"
+                  secureTextEntry={hiddenPassword}
+                  type="password"
+                />
+              </KeyboardAvoidingView>
+              <TouchableOpacity
+                style={styles.showPasswordContainer}
+                onPress={handleHiddenPassword}
+              >
+                <Text style={styles.showPasswordText}>
+                  {hiddenPassword ? "Показать" : "Скрыть"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <SumbitButton
+              title={"Зарегистрироваться"}
+              onPress={() => {
+                handleFormSubmit();
+                dispatch({
+                  type: "reset",
+                });
+              }}
+            />
+            <TouchableOpacity>
+              <Text style={styles.prgIfWasAcc}>Уже есть аккаунт? Войти</Text>
             </TouchableOpacity>
           </View>
-          <SumbitButton title={"Зарегистрироваться"} />
-          <TouchableOpacity>
-            <Text style={styles.prgIfWasAcc}>Уже есть аккаунт? Войти</Text>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-    </ScrollView>
+        </ImageBackground>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 };
