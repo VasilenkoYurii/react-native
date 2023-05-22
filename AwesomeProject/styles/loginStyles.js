@@ -10,6 +10,10 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 812,
   },
+  scrollViewContainer: {
+    flexGrow: 1,
+    justifyContent: "flex-end",
+  },
   formContainer: {
     position: "relative",
     backgroundColor: "#ffffff",

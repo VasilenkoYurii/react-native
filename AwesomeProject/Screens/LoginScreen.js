@@ -10,14 +10,15 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { SumbitButton } from "../components/SubmitButton";
 import { styles } from "../styles/loginStyles";
 import { reducer } from "../helpers/reduserRegLog";
 
 export const LoginScreen = () => {
+  const navigation = useNavigation();
   const [state, dispatch] = useReducer(reducer, {
     email: "",
     password: "",
@@ -55,84 +56,86 @@ export const LoginScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -150}
+      >
         <ImageBackground
           source={require("../images/regLogBg.png")}
           style={styles.bgImage}
         >
-          <View style={styles.formContainer}>
-            <Text style={styles.formTitle}>Войти</Text>
-            <KeyboardAvoidingView
-              style={styles.inputBox}
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
-            >
-              <TextInput
-                style={[
-                  styles.formInput,
-                  isEmailActive && styles.activeFormInput,
-                ]}
-                value={state.email}
-                onChangeText={(e) => {
-                  dispatch({
-                    type: "email",
-                    newEmail: e,
-                  });
-                }}
-                onFocus={handleEmailFocus}
-                onBlur={handleEmailBlur}
-                placeholder="Адрес электронной почты"
-              />
-            </KeyboardAvoidingView>
-            <View style={styles.passwordcontainer}>
-              <KeyboardAvoidingView
-                style={styles.inputBox}
-                behavior={Platform.OS == "ios" ? "padding" : "height"}
-              >
+          <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+            <View style={styles.formContainer}>
+              <Text style={styles.formTitle}>Войти</Text>
+              <View style={styles.inputBox}>
                 <TextInput
                   style={[
-                    styles.formLastInput,
-                    isPasswordActive && styles.activeFormInput,
+                    styles.formInput,
+                    isEmailActive && styles.activeFormInput,
                   ]}
-                  value={state.password}
+                  value={state.email}
                   onChangeText={(e) => {
                     dispatch({
-                      type: "password",
-                      newPassword: e,
+                      type: "email",
+                      newEmail: e,
                     });
                   }}
-                  onFocus={handlePasswordFocus}
-                  onBlur={handlePasswordBlur}
-                  placeholder="Пароль"
-                  secureTextEntry={hiddenPassword}
-                  type="password"
+                  onFocus={handleEmailFocus}
+                  onBlur={handleEmailBlur}
+                  placeholder="Адрес электронной почты"
                 />
-              </KeyboardAvoidingView>
+              </View>
+              <View style={styles.passwordcontainer}>
+                <View style={styles.inputBox}>
+                  <TextInput
+                    style={[
+                      styles.formLastInput,
+                      isPasswordActive && styles.activeFormInput,
+                    ]}
+                    value={state.password}
+                    onChangeText={(e) => {
+                      dispatch({
+                        type: "password",
+                        newPassword: e,
+                      });
+                    }}
+                    onFocus={handlePasswordFocus}
+                    onBlur={handlePasswordBlur}
+                    placeholder="Пароль"
+                    secureTextEntry={hiddenPassword}
+                    type="password"
+                  />
+                </View>
+                <TouchableOpacity
+                  style={styles.showPasswordContainer}
+                  onPress={handleHiddenPassword}
+                >
+                  <Text style={styles.showPasswordText}>
+                    {hiddenPassword ? "Показать" : "Скрыть"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <SumbitButton
+                title={"Войти"}
+                onPress={() => {
+                  handleFormSubmit();
+                  dispatch({
+                    type: "reset",
+                  });
+                }}
+              />
               <TouchableOpacity
-                style={styles.showPasswordContainer}
-                onPress={handleHiddenPassword}
+                onPress={() => navigation.navigate("Registration")}
               >
-                <Text style={styles.showPasswordText}>
-                  {hiddenPassword ? "Показать" : "Скрыть"}
+                <Text style={styles.prgIfWasAcc}>
+                  Нет аккаунта? Зарегистрироваться
                 </Text>
               </TouchableOpacity>
             </View>
-            <SumbitButton
-              title={"Войти"}
-              onPress={() => {
-                handleFormSubmit();
-                dispatch({
-                  type: "reset",
-                });
-              }}
-            />
-            <TouchableOpacity>
-              <Text style={styles.prgIfWasAcc}>
-                Нет аккаунта? Зарегистрироваться
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </ScrollView>
         </ImageBackground>
-      </ScrollView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };

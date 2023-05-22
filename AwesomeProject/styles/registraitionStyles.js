@@ -8,7 +8,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     width: "100%",
-    height: 812,
+    height: "100%",
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
+    justifyContent: "flex-end",
   },
   formContainer: {
     position: "relative",
