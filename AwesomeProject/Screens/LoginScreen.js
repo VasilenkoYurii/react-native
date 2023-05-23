@@ -52,6 +52,7 @@ export const LoginScreen = () => {
     console.debug(
       `Hello, your email: ${state.email}, password: ${state.password}`
     );
+    navigation.navigate("Home");
   };
 
   return (

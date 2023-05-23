@@ -63,6 +63,7 @@ export const RegistrationScreen = () => {
     console.debug(
       `Hello ${state.name}, you have entered your email: ${state.email}, and password: ${state.password}`
     );
+    navigation.navigate("Home");
   };
 
   return (

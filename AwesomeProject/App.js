@@ -16,34 +16,32 @@ export default function App() {
     "Roboto-Medium": require("./fonts/Roboto-Medium.ttf"),
   });
 
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Home">
+      <MainStack.Navigator initialRouteName="Registration">
         <MainStack.Screen
           name="Registration"
           component={RegistrationScreen}
           options={{
-            headerStyle: {
-              height: 0,
-            },
+            headerShown: false,
           }}
         />
         <MainStack.Screen
           name="Login"
           component={LoginScreen}
           options={{
-            headerStyle: {
-              height: 0,
-            },
+            headerShown: false,
           }}
         />
         <MainStack.Screen
           name="Home"
           component={Home}
           options={{
-            headerStyle: {
-              height: 0,
-            },
+            headerShown: false,
           }}
         />
       </MainStack.Navigator>

@@ -1,8 +1,11 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { styles } from "../styles/mapScreenStyled";
 
 export const MapScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.userContainer}>
@@ -28,7 +31,11 @@ export const MapScreen = () => {
           <Text style={styles.pictureName}>Forest</Text>
           <View style={styles.pictureDescription}>
             <View style={styles.pictureComments}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Коментарі");
+                }}
+              >
                 <EvilIcons name="comment" size={24} color="#BDBDBD" />
               </TouchableOpacity>
               <Text style={styles.numberComments}>0</Text>
