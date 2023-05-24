@@ -45,10 +45,12 @@ export const CreatePostScreen = () => {
               />
             </TouchableOpacity>
           </View>
-          <Text style={styles.editPicturePrg}>Редактировать фото</Text>
-          <TextInput style={styles.placeNameInput} placeholder="Название..." />
+          <Text style={styles.editPicturePrg}>
+            {picture ? "Редагувати фото" : "Завантажте фото"}
+          </Text>
+          <TextInput style={styles.placeNameInput} placeholder="Назва..." />
           <View>
-            <TextInput style={styles.placeInput} placeholder="Местность..." />
+            <TextInput style={styles.placeInput} placeholder="Місцевість..." />
             <MaterialIcons
               name="place"
               size={24}
@@ -57,12 +59,12 @@ export const CreatePostScreen = () => {
             />
           </View>
           {picture ? (
-            <SumbitButton title="Опубликовать" />
+            <SumbitButton title="Опубліковати" />
           ) : (
             <SumbitButton
               bgColor="#F6F6F6"
               textColor="#BDBDBD"
-              title="Опубликовать"
+              title="Опубліковати"
             />
           )}
 

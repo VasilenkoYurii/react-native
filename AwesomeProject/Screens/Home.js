@@ -4,7 +4,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
 
-import { MapScreen } from "./MapScreen";
+// import { MapScreen } from "./MapScreen";
+import { PostsScreen } from "./PostsScreen";
 import { CreatePostScreen } from "./CreatePostsScreen";
 import { CommentsScreen } from "./CommentsScreen";
 import { ProfileScreen } from "./ProfileScreen";
@@ -51,15 +52,13 @@ export const Home = () => {
           }
         },
         headerTitleAlign: "center",
+        tabBarActiveTintColor: "#FF6C00",
+        tabBarLabelStyle: { display: "none" },
       })}
-      tabBarOptions={{
-        labelStyle: { display: "none" },
-        activeTintColor: "#FF6C00",
-      }}
     >
       <MainTab.Screen
         name="Публікації"
-        component={MapScreen}
+        component={PostsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Feather name="grid" size={size} color={color} />
@@ -86,6 +85,7 @@ export const Home = () => {
         name="Профіль"
         component={ProfileScreen}
         options={{
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Feather name="user" size={size} color={color} />
           ),

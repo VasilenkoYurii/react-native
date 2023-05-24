@@ -39,7 +39,9 @@ export const CommentsScreen = () => {
                 Really love your most recent photo. I’ve been trying to capture
                 the same thing for a few months and would love some tips!
               </Text>
-              <Text style={styles.userDateMessage}>09 июня, 2020 | 08:40</Text>
+              <Text style={styles.userDateMessage}>
+                09 червня, 2020 | 08:40
+              </Text>
             </View>
           </View>
 
@@ -49,7 +51,9 @@ export const CommentsScreen = () => {
                 A fast 50mm like f1.8 would help with the bokeh. I’ve been using
                 primes as they tend to get a bit sharper images.
               </Text>
-              <Text style={styles.userDateMessage}>09 июня, 2020 | 09:14</Text>
+              <Text style={styles.userDateMessage}>
+                09 червня, 2020 | 09:14
+              </Text>
             </View>
             <Image
               source={require("../images/userPhoto.png")}
@@ -66,14 +70,16 @@ export const CommentsScreen = () => {
               <Text style={styles.userMessage}>
                 Thank you! That was very helpful!
               </Text>
-              <Text style={styles.userDateMessage}>09 июня, 2020 | 09:20</Text>
+              <Text style={styles.userDateMessage}>
+                09 червня, 2020 | 09:20
+              </Text>
             </View>
           </View>
 
           <View>
             <TextInput
               style={styles.commentInput}
-              placeholder="Комментировать..."
+              placeholder="Коментувати..."
             />
             <TouchableOpacity style={styles.submitSendMessBtn}>
               <AntDesign name="arrowup" size={24} color="#FFFFFF" />

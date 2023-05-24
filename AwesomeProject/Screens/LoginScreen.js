@@ -68,7 +68,7 @@ export const LoginScreen = () => {
         >
           <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View style={styles.formContainer}>
-              <Text style={styles.formTitle}>Войти</Text>
+              <Text style={styles.formTitle}>Увійти</Text>
               <View style={styles.inputBox}>
                 <TextInput
                   style={[
@@ -84,7 +84,7 @@ export const LoginScreen = () => {
                   }}
                   onFocus={handleEmailFocus}
                   onBlur={handleEmailBlur}
-                  placeholder="Адрес электронной почты"
+                  placeholder="Адреса електронної пошти"
                 />
               </View>
               <View style={styles.passwordcontainer}>
@@ -113,12 +113,12 @@ export const LoginScreen = () => {
                   onPress={handleHiddenPassword}
                 >
                   <Text style={styles.showPasswordText}>
-                    {hiddenPassword ? "Показать" : "Скрыть"}
+                    {hiddenPassword ? "Показати" : "Скрити"}
                   </Text>
                 </TouchableOpacity>
               </View>
               <SumbitButton
-                title={"Войти"}
+                title={"Увійти"}
                 onPress={() => {
                   handleFormSubmit();
                   dispatch({
@@ -130,7 +130,8 @@ export const LoginScreen = () => {
                 onPress={() => navigation.navigate("Registration")}
               >
                 <Text style={styles.prgIfWasAcc}>
-                  Нет аккаунта? Зарегистрироваться
+                  Немає акаунту?{" "}
+                  <Text style={styles.prgIfWasAccSpan}>Зареєструватися</Text>
                 </Text>
               </TouchableOpacity>
             </View>

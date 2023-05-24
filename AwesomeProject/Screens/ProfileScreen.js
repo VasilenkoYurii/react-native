@@ -59,7 +59,11 @@ export const ProfileScreen = () => {
                   <Text style={styles.pictureName}>Forest</Text>
                   <View style={styles.pictureDescription}>
                     <View style={styles.pictureComments}>
-                      <TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate("Коментарі");
+                        }}
+                      >
                         <FontAwesome name="comment" size={18} color="#FF6C00" />
                       </TouchableOpacity>
                       <Text style={styles.numberComments}>0</Text>

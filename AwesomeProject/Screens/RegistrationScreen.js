@@ -85,7 +85,7 @@ export const RegistrationScreen = () => {
                 </TouchableOpacity>
               </View>
 
-              <Text style={styles.formTitle}>Регистрация</Text>
+              <Text style={styles.formTitle}>Реєстрація</Text>
               <KeyboardAvoidingView
                 style={styles.inputBox}
                 behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -104,7 +104,7 @@ export const RegistrationScreen = () => {
                   }}
                   onFocus={handleLoginFocus}
                   onBlur={handleLoginBlur}
-                  placeholder="Логин"
+                  placeholder="Логін"
                 />
                 <TextInput
                   style={[
@@ -120,7 +120,7 @@ export const RegistrationScreen = () => {
                   }}
                   onFocus={handleEmailFocus}
                   onBlur={handleEmailBlur}
-                  placeholder="Адрес электронной почты"
+                  placeholder="Адреса електронної пошти"
                 />
               </KeyboardAvoidingView>
               <View style={styles.passwordcontainer}>
@@ -152,12 +152,12 @@ export const RegistrationScreen = () => {
                   onPress={handleHiddenPassword}
                 >
                   <Text style={styles.showPasswordText}>
-                    {hiddenPassword ? "Показать" : "Скрыть"}
+                    {hiddenPassword ? "Показати" : "Скрити"}
                   </Text>
                 </TouchableOpacity>
               </View>
               <SumbitButton
-                title={"Зарегистрироваться"}
+                title={"Зареєстуватися"}
                 onPress={() => {
                   handleFormSubmit();
                   dispatch({
@@ -166,7 +166,7 @@ export const RegistrationScreen = () => {
                 }}
               />
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-                <Text style={styles.prgIfWasAcc}>Уже есть аккаунт? Войти</Text>
+                <Text style={styles.prgIfWasAcc}>Вже є акаунт? Увійти</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
