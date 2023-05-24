@@ -72,12 +72,17 @@ export const ProfileScreen = () => {
                       </TouchableOpacity>
                       <Text style={styles.numberComments}>0</Text>
                     </View>
-                    <View style={styles.picturePlace}>
+                    <TouchableOpacity
+                      style={styles.picturePlace}
+                      onPress={() => {
+                        navigation.navigate("Map");
+                      }}
+                    >
                       <MaterialIcons name="place" size={24} color="#BDBDBD" />
                       <Text style={styles.picturePlaceDesctiption}>
                         Ukraine
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>

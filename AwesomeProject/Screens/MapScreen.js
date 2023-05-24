@@ -1,52 +1,57 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { styles } from "../styles/mapScreenStyled";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
+import MapView, { Marker } from "react-native-maps";
+import * as Location from "expo-location";
 
 export const MapScreen = () => {
-  const navigation = useNavigation();
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setLocation(coords);
+    })();
+  }, []);
+
+  // console.debug(location);
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.userContainer}>
-        <View style={styles.userPhotoContainer}>
-          <Image
-            source={require("../images/userPhoto.png")}
-            style={styles.userPhoto}
-          />
-        </View>
-
-        <View style={styles.userNameContainer}>
-          <Text style={styles.userName}>Natali Romanova</Text>
-          <Text style={styles.userEmail}>email@example.com</Text>
-        </View>
-      </View>
-
-      <View style={styles.userPictureContainer}>
-        <Image
-          source={require("../images/userAddedPhoto.png")}
-          style={styles.userAddedPicture}
-        />
-        <View>
-          <Text style={styles.pictureName}>Forest</Text>
-          <View style={styles.pictureDescription}>
-            <View style={styles.pictureComments}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Коментарі");
-                }}
-              >
-                <EvilIcons name="comment" size={24} color="#BDBDBD" />
-              </TouchableOpacity>
-              <Text style={styles.numberComments}>0</Text>
-            </View>
-            <View style={styles.picturePlace}>
-              <MaterialIcons name="place" size={24} color="#BDBDBD" />
-              <Text>Ivano-Frankivs'k Region, Ukraine</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <MapView
+        style={styles.mapStyle}
+        region={{
+          ...location,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+        showsUserLocation={true}
+      >
+        {location && (
+          <Marker title="I am here" coordinate={location} description="Hello" />
+        )}
+      </MapView>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  mapStyle: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+});

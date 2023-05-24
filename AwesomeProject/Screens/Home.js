@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
 
-// import { MapScreen } from "./MapScreen";
 import { PostsScreen } from "./PostsScreen";
 import { CreatePostScreen } from "./CreatePostsScreen";
 import { CommentsScreen } from "./CommentsScreen";

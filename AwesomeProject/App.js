@@ -12,8 +12,8 @@ const MainStack = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    "Roboto-Regular": require("./fonts/Roboto-Regular.ttf"),
-    "Roboto-Medium": require("./fonts/Roboto-Medium.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -44,6 +44,7 @@ export default function App() {
             headerShown: false,
           }}
         />
+        <MainStack.Screen name="Map" component={MapScreen} />
       </MainStack.Navigator>
     </NavigationContainer>
   );

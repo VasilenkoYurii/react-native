@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   secondContainer: {
-    marginTop: 32,
+    paddingTop: 32,
     paddingLeft: 16,
     paddingRight: 16,
   },
@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 240,
     marginBottom: 8,
+    borderRadius: 8,
 
     justifyContent: "center",
     alignItems: "center",
@@ -100,5 +101,28 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
 
     borderRadius: 20,
+
+    marginBottom: 20,
+  },
+  camera: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
+  },
+  photoView: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 8,
+
+    backgroundColor: "transparent",
+
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  flipContainer: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    padding: 15,
   },
 });

@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { styles } from "../styles/mapScreenStyled";
+import { styles } from "../styles/postScreenStyled";
 
 export const PostsScreen = () => {
   const navigation = useNavigation();
@@ -40,10 +40,15 @@ export const PostsScreen = () => {
               </TouchableOpacity>
               <Text style={styles.numberComments}>0</Text>
             </View>
-            <View style={styles.picturePlace}>
+            <TouchableOpacity
+              style={styles.picturePlace}
+              onPress={() => {
+                navigation.navigate("Map");
+              }}
+            >
               <MaterialIcons name="place" size={24} color="#BDBDBD" />
               <Text>Ivano-Frankivs'k Region, Ukraine</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
