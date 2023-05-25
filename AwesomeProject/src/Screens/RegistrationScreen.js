@@ -17,6 +17,10 @@ import { useNavigation } from "@react-navigation/native";
 import { SumbitButton } from "../components/SubmitButton";
 import { styles } from "../styles/registraitionStyles";
 import { reducer } from "../helpers/reduserRegLog";
+// import { useSelector } from "react-redux";
+// import { selectUser } from "../redux/selectors";
+// const { user } = useSelector((state) => state.user);
+// console.debug(user);
 
 export const RegistrationScreen = () => {
   const navigation = useNavigation();
