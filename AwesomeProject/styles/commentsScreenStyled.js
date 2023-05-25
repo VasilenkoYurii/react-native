@@ -9,10 +9,18 @@ export const styles = StyleSheet.create({
     borderTopColor: "#EEE",
     borderTopWidth: 1,
   },
+  keyboardStyle: {
+    width: "100%",
+    height: "100%",
+  },
   secondContainer: {
-    marginTop: 32,
+    display: "flex",
+
+    paddingTop: 32,
     paddingLeft: 16,
     paddingRight: 16,
+
+    justifyContent: "flex-end",
   },
   userPictureContainer: {
     width: "100%",
