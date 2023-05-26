@@ -15,12 +15,15 @@ import {
   Feather,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/operations";
 import { styles } from "../styles/profileScreenStyled";
 
 export const ProfileScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const handleExinInLogIn = () => {
-    navigation.navigate("Login");
+    dispatch(logOut()).then(() => navigation.navigate("Login"));
   };
 
   return (

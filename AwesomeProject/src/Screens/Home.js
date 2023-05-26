@@ -3,6 +3,8 @@ import { View, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Ionicons, Feather, AntDesign } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/operations";
 
 import { PostsScreen } from "./PostsScreen";
 import { CreatePostScreen } from "./CreatePostsScreen";
@@ -12,6 +14,8 @@ import { ProfileScreen } from "./ProfileScreen";
 const MainTab = createBottomTabNavigator();
 
 export const Home = () => {
+  const dispatch = useDispatch();
+
   return (
     <MainTab.Navigator
       screenOptions={({ route, navigation }) => ({
@@ -26,7 +30,9 @@ export const Home = () => {
                 size={24}
                 color="black"
                 style={{ marginLeft: 10 }}
-                onPress={() => navigation.goBack()}
+                onPress={() => {
+                  navigation.goBack();
+                }}
               />
             );
           } else {
@@ -42,7 +48,7 @@ export const Home = () => {
                 color="#BDBDBD"
                 style={{ marginRight: 21 }}
                 onPress={() => {
-                  navigation.navigate("Login");
+                  dispatch(logOut()).then(() => navigation.navigate("Login"));
                 }}
               />
             );

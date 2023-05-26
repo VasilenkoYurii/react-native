@@ -11,18 +11,19 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
 import { SumbitButton } from "../components/SubmitButton";
 import { styles } from "../styles/registraitionStyles";
 import { reducer } from "../helpers/reduserRegLog";
-// import { useSelector } from "react-redux";
-// import { selectUser } from "../redux/selectors";
-// const { user } = useSelector((state) => state.user);
-// console.debug(user);
+
+import { useDispatch } from "react-redux";
+import { register } from "../redux/operations";
 
 export const RegistrationScreen = () => {
+  const dispatchRedax = useDispatch();
+
   const navigation = useNavigation();
   const [state, dispatch] = useReducer(reducer, {
     name: "",
@@ -64,10 +65,29 @@ export const RegistrationScreen = () => {
   };
 
   const handleFormSubmit = () => {
-    console.debug(
-      `Hello ${state.name}, you have entered your email: ${state.email}, and password: ${state.password}`
-    );
-    navigation.navigate("Home");
+    try {
+      console.debug(
+        `Hello ${state.name}, you have entered your email: ${state.email}, and password: ${state.password}`
+      );
+
+      dispatchRedax(
+        register({
+          name: state.name,
+          email: state.email,
+          password: state.password,
+        })
+      ).then((registrationResult) => {
+        if (registrationResult.payload) {
+          dispatch({ type: "reset" });
+          navigation.navigate("Login");
+        } else {
+          Alert.alert("Registration failed", "Email is already registered");
+        }
+      });
+    } catch (error) {
+      console.error("Error during registration:", error);
+      Alert.alert("Something went wrong, please try again");
+    }
   };
 
   return (
@@ -160,15 +180,23 @@ export const RegistrationScreen = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <SumbitButton
-                title={"Зареєстуватися"}
-                onPress={() => {
-                  handleFormSubmit();
-                  dispatch({
-                    type: "reset",
-                  });
-                }}
-              />
+              {state.name && state.email && state.password ? (
+                <SumbitButton
+                  title={"Зареєстуватися"}
+                  onPress={() => {
+                    handleFormSubmit();
+                  }}
+                />
+              ) : (
+                <SumbitButton
+                  bgColor="#F6F6F6"
+                  textColor="#BDBDBD"
+                  title="Зареєстуватися"
+                  onPress={() => {
+                    Alert.alert("Заповніть всі поля");
+                  }}
+                />
+              )}
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                 <Text style={styles.prgIfWasAcc}>Вже є акаунт? Увійти</Text>
               </TouchableOpacity>

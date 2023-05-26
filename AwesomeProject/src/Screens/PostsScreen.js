@@ -1,10 +1,14 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { selectUser } from "../redux/selectors";
 import { styles } from "../styles/postScreenStyled";
 
 export const PostsScreen = () => {
   const navigation = useNavigation();
+
+  const user = useSelector(selectUser);
 
   return (
     <ScrollView style={styles.container}>
@@ -17,8 +21,8 @@ export const PostsScreen = () => {
         </View>
 
         <View style={styles.userNameContainer}>
-          <Text style={styles.userName}>Natali Romanova</Text>
-          <Text style={styles.userEmail}>email@example.com</Text>
+          <Text style={styles.userName}>{user.name}</Text>
+          <Text style={styles.userEmail}>{user.email}</Text>
         </View>
       </View>
 

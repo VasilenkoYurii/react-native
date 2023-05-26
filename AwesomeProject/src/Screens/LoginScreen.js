@@ -10,6 +10,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -17,7 +18,11 @@ import { SumbitButton } from "../components/SubmitButton";
 import { styles } from "../styles/loginStyles";
 import { reducer } from "../helpers/reduserRegLog";
 
+import { useDispatch } from "react-redux";
+import { logIn } from "../redux/operations";
+
 export const LoginScreen = () => {
+  const dispatchRedax = useDispatch();
   const navigation = useNavigation();
   const [state, dispatch] = useReducer(reducer, {
     email: "",
@@ -49,10 +54,28 @@ export const LoginScreen = () => {
   };
 
   const handleFormSubmit = () => {
-    console.debug(
-      `Hello, your email: ${state.email}, password: ${state.password}`
-    );
-    navigation.navigate("Home");
+    try {
+      console.debug(
+        `Hello, your email: ${state.email}, password: ${state.password}`
+      );
+
+      dispatchRedax(
+        logIn({
+          email: state.email,
+          password: state.password,
+        })
+      ).then((registrationResult) => {
+        if (registrationResult.payload) {
+          dispatch({ type: "reset" });
+          navigation.navigate("Home");
+        } else {
+          Alert.alert("LogIn failed", "Passwords or email entered incorrectly");
+        }
+      });
+    } catch (error) {
+      console.error("Error during registration:", error);
+      Alert.alert("Something went wrong, please try again");
+    }
   };
 
   return (
@@ -117,15 +140,23 @@ export const LoginScreen = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              <SumbitButton
-                title={"Увійти"}
-                onPress={() => {
-                  handleFormSubmit();
-                  dispatch({
-                    type: "reset",
-                  });
-                }}
-              />
+              {state.email && state.password ? (
+                <SumbitButton
+                  title={"Увійти"}
+                  onPress={() => {
+                    handleFormSubmit();
+                  }}
+                />
+              ) : (
+                <SumbitButton
+                  bgColor="#F6F6F6"
+                  textColor="#BDBDBD"
+                  title="Увійти"
+                  onPress={() => {
+                    Alert.alert("Заповніть всі поля");
+                  }}
+                />
+              )}
               <TouchableOpacity
                 onPress={() => navigation.navigate("Registration")}
               >

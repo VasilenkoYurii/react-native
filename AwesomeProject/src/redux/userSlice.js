@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { register, logIn, logOut } from "./operations";
 
 const initialState = {
-  user: { name: null, email: null, avatar: null },
+  user: { name: null, email: null, password: null },
   uid: null,
   posts: [],
 };
@@ -13,7 +14,13 @@ posts [
     title: null,
     place: null,
     geo: null,
-    coments: [ '', '' ]
+    coments: [ {
+        userName: null,
+        avatar: null,
+        text: null,
+        date: null,
+    }, {} ],
+    likes: 0,
 }
 ]
 */
@@ -24,21 +31,23 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(register.fulfilled, (state, action) => {
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.isLoggedIn = true;
+      .addCase(register.fulfilled, (state, { payload }) => {
+        state.posts = payload.posts;
+        state.user = payload.user;
+        state.uid = payload.uid;
       })
-      .addCase(register.rejected, () => {
-        toast.error("Something went wrong, please try again.", {
-          style: {
-            width: "300px",
-            height: "40px",
-            borderRadius: "10px",
-            fontSize: "20px",
-          },
-        });
-      });
+      .addCase(register.rejected, () => {})
+      .addCase(logIn.fulfilled, (state, { payload }) => {
+        console.debug(payload);
+        state.posts = payload.posts;
+        state.user = payload.user;
+        state.uid = payload.uid;
+      })
+      .addCase(logIn.rejected, () => {})
+      .addCase(logOut.fulfilled, (state, { payload }) => {
+        state = initialState;
+      })
+      .addCase(logOut.rejected, () => {});
   },
 });
 
