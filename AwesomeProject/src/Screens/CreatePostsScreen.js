@@ -16,10 +16,15 @@ import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { addUserPost } from "../redux/operations";
+
 import { styles } from "../styles/createPostScreenStyled";
 import { SumbitButton } from "../components/SubmitButton";
 
 export const CreatePostScreen = () => {
+  const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
@@ -29,7 +34,9 @@ export const CreatePostScreen = () => {
     picture: "",
     title: "",
     place: "",
-    geo: "",
+    geo: null,
+    comments: [],
+    likes: 0,
   });
 
   useEffect(() => {
@@ -39,6 +46,8 @@ export const CreatePostScreen = () => {
 
       setHasPermission(status === "granted");
     })();
+
+    hendleGeoLocation();
   }, []);
 
   const hendleGeoLocation = async () => {
@@ -52,12 +61,31 @@ export const CreatePostScreen = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     };
+
     setPost((prevPost) => {
       return {
         ...post,
         geo: coords,
       };
     });
+  };
+
+  const handleSubmitAddPost = async () => {
+    try {
+      await dispatch(addUserPost(post));
+
+      setPost((prevState) => {
+        return {
+          picture: "",
+          title: "",
+          place: "",
+          geo: null,
+          comments: [],
+          likes: 0,
+        };
+      });
+      navigation.navigate("Публікації");
+    } catch (error) {}
   };
 
   return (
@@ -200,9 +228,7 @@ export const CreatePostScreen = () => {
             <SumbitButton
               title="Опубліковати"
               onPress={() => {
-                hendleGeoLocation();
-
-                navigation.navigate("Публікації");
+                handleSubmitAddPost();
               }}
             />
           ) : (

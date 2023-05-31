@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     fontWeight: "400",
   },
   userPictureContainer: {
-    marginBottom: 32,
+    marginBottom: 50,
   },
   userAddedPicture: {
     width: "100%",

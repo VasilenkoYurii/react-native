@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register, logIn, logOut } from "./operations";
+import {
+  register,
+  logIn,
+  logOut,
+  addUserPost,
+  addCommentToPost,
+} from "./operations";
 
 const initialState = {
   user: { name: null, email: null, password: null },
@@ -21,6 +27,7 @@ posts [
         date: null,
     }, {} ],
     likes: 0,
+    id: 
 }
 ]
 */
@@ -38,7 +45,7 @@ export const userSlice = createSlice({
       })
       .addCase(register.rejected, () => {})
       .addCase(logIn.fulfilled, (state, { payload }) => {
-        console.debug(payload);
+        // console.debug(payload);
         state.posts = payload.posts;
         state.user = payload.user;
         state.uid = payload.uid;
@@ -47,8 +54,16 @@ export const userSlice = createSlice({
       .addCase(logOut.fulfilled, (state, { payload }) => {
         state = initialState;
       })
-      .addCase(logOut.rejected, () => {});
+      .addCase(logOut.rejected, () => {})
+      .addCase(addUserPost.fulfilled, (state, { payload }) => {
+        state.posts = payload.posts;
+      })
+      .addCase(addUserPost.rejected, () => {})
+      .addCase(addCommentToPost.fulfilled, (state, { payload }) => {
+        state.posts = payload.posts;
+      })
+      .addCase(addCommentToPost.rejected, () => {});
   },
 });
 
-// export const userReduser = userSlice.reducer;
+// addCommentToPost

@@ -15,13 +15,16 @@ import {
   Feather,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../redux/selectors";
 import { logOut } from "../redux/operations";
 import { styles } from "../styles/profileScreenStyled";
 
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const user = useSelector(selectUser);
+
   const handleExinInLogIn = () => {
     dispatch(logOut()).then(() => navigation.navigate("Login"));
   };
@@ -46,7 +49,7 @@ export const ProfileScreen = () => {
                 <AntDesign name="close" size={18} color="#BDBDBD" />
               </TouchableOpacity>
             </View>
-            <Text style={styles.titleUserName}>Natali Romanova</Text>
+            <Text style={styles.titleUserName}>{user.name}</Text>
 
             <View style={styles.userPictureContainer}>
               <Image
