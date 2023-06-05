@@ -42,7 +42,10 @@ export const register = createAsyncThunk(
 
       return userData;
     } catch (error) {
-      console.error("Ошибка при регистрации пользователя:", error);
+      if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+        alert("По данному имейл адресу есть аккаунт");
+      }
+      // console.error("Ошибка при регистрации пользователя:", error.message);
     }
   }
 );
@@ -60,8 +63,6 @@ export const logIn = createAsyncThunk(
         password
       );
       const { uid } = userCredential.user;
-
-      console.log(uid);
 
       const userDocRef = doc(db, "users", uid);
       const userDocSnapshot = await getDoc(userDocRef);
@@ -176,7 +177,6 @@ export const addCommentToPost = createAsyncThunk(
         alert("Пусте повідомлення, напишіть текст");
         return;
       }
-      // Получение текущего пользователя
       const user = auth.currentUser;
       if (!user) {
         console.error("Пользователь не авторизован");
@@ -186,7 +186,6 @@ export const addCommentToPost = createAsyncThunk(
       const userId = user.uid;
       const userRef = doc(db, "users", userId);
 
-      // Получение существующих данных пользователя
       const userDocSnapshot = await getDoc(userRef);
       if (!userDocSnapshot.exists()) {
         console.error("Документ пользователя не найден");
@@ -195,17 +194,14 @@ export const addCommentToPost = createAsyncThunk(
 
       const userData = userDocSnapshot.data();
 
-      // Найти пост по id в массиве постов пользователя
       const updatedPosts = userData.posts.map((post) => {
         if (post.id === postId) {
-          // Создание нового комментария
           const newComment = {
             userName: comment.userName,
             text: comment.text,
             date: Date.now(),
           };
 
-          // Добавление нового комментария к массиву комментариев поста
           return {
             ...post,
             comments: [...post.comments, newComment],
@@ -214,18 +210,15 @@ export const addCommentToPost = createAsyncThunk(
         return post;
       });
 
-      // Обновление массива posts в данных пользователя
       const updatedUserData = {
         ...userData,
         posts: updatedPosts,
       };
 
-      // Обновление документа пользователя в Firestore
       await setDoc(userRef, updatedUserData);
 
       console.log("Комментарий успешно добавлен к посту");
 
-      // Возвращение обновленных данных пользователя
       return updatedUserData;
     } catch (error) {
       console.error("Ошибка при добавлении комментария:", error);

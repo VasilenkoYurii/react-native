@@ -12,8 +12,6 @@ export const styles = StyleSheet.create({
   },
 
   formContainer: {
-    flex: 1,
-
     position: "relative",
     backgroundColor: "#ffffff",
     width: "100%",
